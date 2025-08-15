@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tap2Talk - Voice to Text Terminal | Powered by GROQ</title>
+  <meta name="description" content="Terminal-based voice to text. Free with GROQ API. Install via npm. No GUI needed.">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-terminal: #0d0d12;
+      --text-primary: #00ffcc;
+      --text-secondary: #66bbcc;
+      --text-dim: #9999cc;
+      --accent-pink: #ff55cc;
+      --accent-purple: #cc77cc;
+      --border-color: #1a1a2e;
+      --code-bg: #000000;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    ::selection {
+      background: #ff55cc;
+      color: #0a0a0f;
+    }
+    
+    body {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-size: 14px;
+      overflow-x: hidden;
+    }
+    
+    /* Terminal cursor animation */
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background: var(--text-primary);
+      animation: blink 1s infinite;
+      vertical-align: text-bottom;
+    }
+    
+    /* ASCII Logo Styles */
+    .ascii-logo {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      line-height: 1.2;
+      white-space: pre;
+      letter-spacing: 0;
+      margin: 2rem auto;
+      display: block;
+      text-align: center;
+      background: linear-gradient(180deg, #00ffcc 0%, #33ddcc 20%, #66bbcc 40%, #9999cc 60%, #cc77cc 80%, #ff55cc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    @media (min-width: 768px) {
+      .ascii-logo {
+        font-size: 14px;
+      }
+    }
+    
+    /* Navigation */
+    nav {
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      background: var(--bg-terminal);
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-prompt {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+    
+    .nav-links a:hover::after {
+      content: '_';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      color: var(--text-primary);
+      text-align: center;
+    }
+    
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    /* Terminal Window */
+    .terminal {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+    
+    .terminal-header {
+      background: #1a1a2e;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--error);
+    }
+    
+    .terminal-dot:nth-child(2) {
+      background: var(--warning);
+    }
+    
+    .terminal-dot:nth-child(3) {
+      background: var(--success);
+    }
+    
+    .terminal-title {
+      margin-left: auto;
+      color: var(--text-dim);
+      font-size: 12px;
+    }
+    
+    .terminal-body {
+      padding: 1.5rem;
+      font-size: 14px;
+      min-height: 200px;
+    }
+    
+    .prompt {
+      color: var(--text-primary);
+      margin-right: 0.5rem;
+    }
+    
+    .command {
+      color: var(--accent-pink);
+    }
+    
+    .output {
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      margin-left: 2rem;
+    }
+    
+    .comment {
+      color: var(--text-dim);
+      font-style: italic;
+    }
+    
+    /* Sections */
+    .section {
+      margin: 4rem 0;
+    }
+    
+    .section-header {
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      font-size: 24px;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    
+    .section-subtitle {
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+    
+    /* Code blocks */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+    
+    .code-block code {
+      color: var(--accent-purple);
+      font-size: 14px;
+    }
+    
+    /* Feature Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-card {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+    
+    .feature-card:hover {
+      border-color: var(--text-primary);
+    }
+    
+    .feature-label {
+      color: var(--text-dim);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .feature-value {
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .feature-description {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-top: 0.5rem;
+    }
+    
+    /* Pricing Table */
+    .pricing-table {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .pricing-card {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      border-radius: 4px;
+      position: relative;
+    }
+    
+    .pricing-card.recommended {
+      border-color: var(--text-primary);
+    }
+    
+    .pricing-card.recommended::before {
+      content: '[RECOMMENDED]';
+      position: absolute;
+      top: -10px;
+      left: 1rem;
+      background: var(--bg-terminal);
+      padding: 0 0.5rem;
+      color: var(--text-primary);
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+    
+    .pricing-name {
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .pricing-price {
+      color: var(--accent-pink);
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin: 1rem 0;
+    }
+    
+    .pricing-features li {
+      color: var(--text-secondary);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: transparent;
+      border: 1px solid var(--text-primary);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .btn:hover {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+    }
+    
+    .btn-secondary {
+      border-color: var(--text-dim);
+      color: var(--text-dim);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--text-dim);
+      color: var(--bg-primary);
+      box-shadow: 0 0 20px rgba(153, 153, 204, 0.3);
+    }
+    
+    /* Install command */
+    .install-command {
+      background: var(--code-bg);
+      border: 2px solid var(--text-primary);
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    
+    .install-command code {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .copy-btn {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid var(--text-dim);
+      color: var(--text-dim);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      transition: all 0.3s;
+    }
+    
+    .copy-btn:hover {
+      border-color: var(--text-primary);
+      color: var(--text-primary);
+    }
+    
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+    
+    .stat-value {
+      color: var(--accent-pink);
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .stat-label {
+      color: var(--text-dim);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 0.5rem;
+    }
+    
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 12px;
+      margin-top: 4rem;
+    }
+    
+    /* Live Demo */
+    .demo-terminal {
+      position: relative;
+    }
+    
+    #demo-output {
+      min-height: 100px;
+      color: var(--text-secondary);
+    }
+    
+    .recording-indicator {
+      display: none;
+      color: var(--error);
+      animation: blink 1s infinite;
+    }
+    
+    .recording-indicator.active {
+      display: inline;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .ascii-logo {
+        font-size: 8px;
+        overflow-x: auto;
+      }
+      
+      .section-title {
+        font-size: 20px;
+      }
+      
+      .pricing-table,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .install-command {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-prompt">$ tap2talk _</div>
+      <div class="nav-links">
+        <a href="#install">install</a>
+        <a href="#usage">usage</a>
+        <a href="#pricing">pricing</a>
+        <a href="https://github.com/tap2talk" target="_blank">github</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="container">
+    <!-- Main Slogan -->
+    <div style="text-align: center; margin: 3rem 0 2rem;">
+      <h1 style="font-size: 2.5rem; color: var(--text-primary); font-weight: 700; margin-bottom: 1rem; line-height: 1.2;">
+        TALK IN ANY APP<br>TYPE NOTHING
+      </h1>
+      <p style="font-size: 1.125rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+        Voice to text that works everywhere. Press Ctrl+SpacexSpace (double-tap) anywhere - terminal, IDE, browser, chat. 
+        Your words appear instantly where you're typing.
+      </p>
+    </div>
+
+    <!-- ASCII Logo -->
+    <pre class="ascii-logo">
+ ████████╗  █████╗  ██████╗  ██████╗  ████████╗  █████╗  ██╗      ██╗  ██╗
+ ╚══██╔══╝ ██╔══██╗ ██╔══██╗ ╚════██╗ ╚══██╔══╝ ██╔══██╗ ██║      ██║ ██╔╝
+    ██║    ███████║ ██████╔╝  █████╔╝    ██║    ███████║ ██║      █████╔╝ 
+    ██║    ██╔══██║ ██╔═══╝  ██╔═══╝     ██║    ██╔══██║ ██║      ██╔═██╗ 
+    ██║    ██║  ██║ ██║      ███████╗    ██║    ██║  ██║ ███████╗ ██║  ██╗
+    ╚═╝    ╚═╝  ╚═╝ ╚═╝      ╚══════╝    ╚═╝    ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝
+    </pre>
+
+    <!-- Download Options -->
+    <div style="background: var(--bg-terminal); border: 1px solid var(--border-color); border-radius: 4px; padding: 2rem; margin: 2rem 0; text-align: center;">
+      <h3 style="color: var(--text-primary); margin-bottom: 1.5rem; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 2px;">
+        Quick Download
+      </h3>
+      <p style="font-size: 1.125rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 1.5rem;">
+        Install via npm for automatic updates <br/>or download binaries for your OS.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <a href="#" onclick="downloadMac(); return false;" class="btn" style="min-width: 150px;">
+          MAC OS
+        </a>
+        <a href="#" onclick="downloadWindows(); return false;" class="btn" style="min-width: 150px;">
+          WINDOWS
+        </a>
+        <a href="#" onclick="downloadLinux(); return false;" class="btn" style="min-width: 150px;">
+          LINUX
+        </a>
+      </div>
+    </div>
+    
+    <!-- Terminal Introduction -->
+    <div class="terminal" style="display: none;">
+      <div class="terminal-header">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-title">~/tap2talk</div>
+      </div>
+      <div class="terminal-body">
+        <div>
+          <span class="prompt">$</span>
+          <span class="command">echo "Voice to text without switching apps"</span>
+        </div>
+        <div class="output">Voice to text without switching apps</div>
+        <br>
+        <div>
+          <span class="prompt">$</span>
+          <span class="command">tap2talk status</span>
+        </div>
+        <div class="output">
+          <span style="color: var(--success);">[*] Online</span> | Uptime: 2h 34m | CPU: 0.3% | Memory: 42 MB<br>
+          <br>
+          Press Ctrl+Space (double-tap) anywhere to start recording<br>
+          Works everywhere: Terminal, IDE, browser, chat apps<br>
+          <br>
+          <span style="color: var(--success);">[FREE]</span> Use your GROQ API key for unlimited transcription<br>
+          <span style="color: var(--accent-purple);">[EASY]</span> Or use our credits. No API key needed
+        </div>
+        <br>
+        <div>
+          <span class="prompt">$</span>
+          <span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Install -->
+    <section class="section" id="install">
+      <div class="section-header">
+        <h2 class="section-title">// NPM INSTALLATION</h2>
+        <p class="section-subtitle">Single command. Global shortcut. Ready.</p>
+      </div>
+      
+      <div class="install-command">
+        <code>npm install -g tap2talk</code>
+        <button class="copy-btn" onclick="copyCommand()">COPY</button>
+      </div>
+      
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-title">installation</div>
+        </div>
+        <div class="terminal-body">
+          <div class="comment"># Install globally via npm</div>
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">npm install -g tap2talk</span>
+          </div>
+          <br>
+          <div class="comment"># Start Interactive Mode</div>
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">tap2talk</span>
+          </div>
+          <br>
+          <div class="comment"># Start the service</div>
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">tap2talk start</span>
+          </div>
+          <div class="output">[OK] Service started successfully</div>
+          <div class="output">Shortcut: Ctrl+Space (double-tap Space)</div>
+          <br>
+          <div class="comment"># Check status</div>
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">tap2talk status</span>
+          </div>
+          <div class="output">[*] Online | Uptime: 2h 34m | CPU: 0.3% | Memory: 42 MB</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Demo -->
+    <section class="section" style="display:none">
+      <div class="section-header">
+        <h2 class="section-title">// LIVE DEMO</h2>
+        <p class="section-subtitle">Try it now. No installation required for demo.</p>
+      </div>
+      
+      <div class="terminal demo-terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-title">demo</div>
+        </div>
+        <div class="terminal-body">
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">tap2talk --demo</span>
+          </div>
+          <div class="output">Demo mode activated. Click button or press Enter to start recording.</div>
+          <br>
+          <div id="demo-output">
+            <span class="prompt">></span>
+            <span class="recording-indicator" id="recording-indicator">[RECORDING]</span>
+            <span id="transcribed-text"></span>
+            <span class="cursor"></span>
+          </div>
+          <br>
+          <button class="btn" onclick="toggleRecording()" id="demo-btn">START RECORDING</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Usage -->
+    <section class="section" id="usage">
+      <div class="section-header">
+        <h2 class="section-title">// AUTHENTICATION</h2>
+        <p class="section-subtitle">Your API key or support the project. Both work great.</p>
+      </div>
+      
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-title">~/unclecode/message</div>
+        </div>
+        <div class="terminal-body">
+          <div class="comment"># A MESSAGE FROM @UNCLECODE</div>
+          <div class="output">
+            Hey there! Got a GROQ API key? Awesome - use it, it's FREE forever!<br>
+            <br>
+            But if you don't have one, or want to support open source...<br>
+            Why not buy some credits? Here's what you get:<br>
+            <br>
+            <span style="color: var(--text-primary);">→</span> No API key hassle - just works<br>
+            <span style="color: var(--text-primary);">→</span> Transaction history - download anytime<br>
+            <span style="color: var(--text-primary);">→</span> Priority feature requests<br>
+            <span style="color: var(--text-primary);">→</span> Grammar correction (coming soon)<br>
+            <span style="color: var(--text-primary);">→</span> Custom shortcuts (coming soon)<br>
+            <br>
+            Your support helps me maintain this AND sponsor Crawl4AI project!<br>
+            Plus, paid members get their features built first. 😉<br>
+          </div>
+          <br>
+          <div class="comment"># OPTION 1: Have a GROQ key? Use it!</div>
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">export GROQ_API_KEY="gsk_your_api_key_here"</span>
+          </div>
+          <div class="output">✓ API key configured. FREE unlimited transcription!</div>
+          <div class="comment"># Get your key at: https://console.groq.com</div>
+          <br>
+          <div class="comment"># OPTION 2: Support the project & get perks</div>
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">tap2talk start</span>
+          </div>
+          <div class="output">✓ Service started. Click tray icon → Buy Credits</div>
+          <div class="output">You get 15 minutes FREE monthly. Then just $5 for 3 hours!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">// SPECIFICATIONS</h2>
+        <p class="section-subtitle">Technical details and capabilities.</p>
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-label">SPEED</div>
+          <div class="feature-value">&lt; 500ms</div>
+          <div class="feature-description">Groq LPU inference. Fastest transcription available.</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-label">ACCURACY</div>
+          <div class="feature-value">99.7%</div>
+          <div class="feature-description">OpenAI Whisper Large v3. State-of-the-art model.</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-label">LANGUAGES</div>
+          <div class="feature-value">98</div>
+          <div class="feature-description">Automatic language detection. No configuration.</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-label">PLATFORMS</div>
+          <div class="feature-value">ALL</div>
+          <div class="feature-description">macOS, Windows, Linux. Works everywhere.</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-label">PRIVACY</div>
+          <div class="feature-value">100%</div>
+          <div class="feature-description">Your API key = direct to Groq. We never see your data.</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-label">UPTIME</div>
+          <div class="feature-value">99.9%</div>
+          <div class="feature-description">Runs as system service. Always ready.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section" id="pricing">
+      <div class="section-header">
+        <h2 class="section-title">// PRICING</h2>
+        <p class="section-subtitle">Choose your authentication method.</p>
+      </div>
+      
+      <div class="pricing-table">
+        <div class="pricing-card">
+          <div class="pricing-name">GROQ API KEY</div>
+          <div class="pricing-price">$0</div>
+          <ul class="pricing-features">
+            <li>Unlimited transcription</li>
+            <li>30 requests/minute</li>
+            <li>14,400 requests/day</li>
+            <li>Direct to Groq servers</li>
+            <li>Complete privacy</li>
+            <li>No data retention</li>
+          </ul>
+          <br>
+          <a href="https://console.groq.com" target="_blank" class="btn btn-secondary">GET API KEY</a>
+        </div>
+        
+        <div class="pricing-card recommended">
+          <div class="pricing-name">TAP2TALK CREDITS</div>
+          <div class="pricing-price">PAY AS YOU GO</div>
+          <ul class="pricing-features">
+            <li>15 minutes free monthly</li>
+            <li>$5 = 180 minutes</li>
+            <li>$10 = 360 minutes</li>
+            <li>$20 = 900 minutes</li>
+            <li>No API key needed</li>
+            <li>Credits never expire</li>
+          </ul>
+          <br>
+          <div style="padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 0.5rem; margin-bottom: 1rem;">
+            <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">How to buy credits:</p>
+            <p style="font-size: 0.813rem; color: var(--text-dim);">1. Start tap2talk<br>2. Click tray icon<br>3. Select "Buy Credits"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commands Reference -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">// COMMAND REFERENCE</h2>
+        <p class="section-subtitle">Complete CLI documentation.</p>
+      </div>
+      
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-title">commands</div>
+        </div>
+        <div class="terminal-body">
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">tap2talk --help</span>
+          </div>
+          <div class="output">
+            <br>
+            Usage: tap2talk [command] [options]<br>
+            <br>
+            Commands:<br>
+            &nbsp;&nbsp;start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start as background service<br>
+            &nbsp;&nbsp;stop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop background service<br>
+            &nbsp;&nbsp;restart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Restart service<br>
+            &nbsp;&nbsp;status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check service status<br>
+            &nbsp;&nbsp;logs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show recent logs<br>
+            &nbsp;&nbsp;update&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check for updates<br>
+            <br>
+            Global Shortcut:<br>
+            &nbsp;&nbsp;Ctrl+Space (double-tap)&nbsp;&nbsp;Start/stop recording<br>
+            &nbsp;&nbsp;Escape (double-tap)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abort recording<br>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section">
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-dot"></div>
+          <div class="terminal-title">ready to start?</div>
+        </div>
+        <div class="terminal-body">
+          <div>
+            <span class="prompt">$</span>
+            <span class="command">npm install -g tap2talk && tap2talk start</span>
+          </div>
+          <div class="output">
+            <br>
+            Installing tap2talk...<br>
+            Starting service...<br>
+            <span style="color: var(--success);">[SUCCESS]</span> Tap2Talk is ready. Press Ctrl+Space×2 anywhere to begin.<br>
+          </div>
+          <br>
+          <div>
+            <span class="prompt">$</span>
+            <span class="cursor"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>TAP2TALK v1.0.0 | MIT License | Built with Electron + Groq API</div>
+    <div>© 2024 @unclecode | Powered by OpenAI Whisper on Groq Infrastructure</div>
+  </footer>
+
+  <script>
+    // Download functions
+    // GitHub automatically serves the latest release files
+    // We fetch the latest release info and redirect to the appropriate asset
+    
+    async function getLatestRelease() {
+      try {
+        const response = await fetch('https://api.github.com/repos/unclecode/tap2talk/releases/latest');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        // Fallback to releases page if API fails
+        window.location.href = 'https://github.com/unclecode/tap2talk/releases/latest';
+        return null;
+      }
+    }
+    
+    async function downloadMac() {
+      const release = await getLatestRelease();
+      if (release && release.assets) {
+        // Look for DMG file (macOS)
+        const dmgAsset = release.assets.find(asset => 
+          asset.name.endsWith('.dmg') && asset.name.includes('arm64')
+        ) || release.assets.find(asset => asset.name.endsWith('.dmg'));
+        
+        if (dmgAsset) {
+          window.location.href = dmgAsset.browser_download_url;
+        } else {
+          window.location.href = release.html_url;
+        }
+      }
+    }
+    
+    async function downloadWindows() {
+      const release = await getLatestRelease();
+      if (release && release.assets) {
+        // Look for EXE file (Windows installer)
+        const exeAsset = release.assets.find(asset => 
+          asset.name.endsWith('.exe') && asset.name.includes('Setup')
+        ) || release.assets.find(asset => asset.name.endsWith('.exe'));
+        
+        if (exeAsset) {
+          window.location.href = exeAsset.browser_download_url;
+        } else {
+          window.location.href = release.html_url;
+        }
+      }
+    }
+    
+    async function downloadLinux() {
+      const release = await getLatestRelease();
+      if (release && release.assets) {
+        // Look for AppImage file (Linux)
+        const appImageAsset = release.assets.find(asset => 
+          asset.name.endsWith('.AppImage')
+        );
+        
+        if (appImageAsset) {
+          window.location.href = appImageAsset.browser_download_url;
+        } else {
+          window.location.href = release.html_url;
+        }
+      }
+    }
+    
+    // Copy command function
+    function copyCommand() {
+      navigator.clipboard.writeText('npm install -g tap2talk');
+      const btn = event.target;
+      btn.textContent = 'COPIED';
+      setTimeout(() => {
+        btn.textContent = 'COPY';
+      }, 2000);
+    }
+    
+    // Demo functionality
+    let isRecording = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    
+    async function toggleRecording() {
+      const btn = document.getElementById('demo-btn');
+      const indicator = document.getElementById('recording-indicator');
+      const output = document.getElementById('transcribed-text');
+      
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          
+          mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+          };
+          
+          mediaRecorder.onstop = async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            audioChunks = [];
+            
+            // Convert to base64
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = async () => {
+              const base64Audio = reader.result.split(',')[1];
+              
+              try {
+                // Call demo transcription API
+                const response = await fetch('https://api-three-iota-12.vercel.app/api/demo-transcribe', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ audio: base64Audio })
+                });
+                
+                const data = await response.json();
+                if (data.text) {
+                  output.textContent = data.text;
+                } else {
+                  output.textContent = '[Error: Could not transcribe audio]';
+                }
+              } catch (error) {
+                output.textContent = '[Error: Network error]';
+              }
+            };
+            
+            // Stop all tracks
+            stream.getTracks().forEach(track => track.stop());
+          };
+          
+          mediaRecorder.start();
+          isRecording = true;
+          btn.textContent = 'STOP RECORDING';
+          indicator.classList.add('active');
+          output.textContent = '';
+        } catch (error) {
+          output.textContent = '[Error: Microphone access denied]';
+        }
+      } else {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        isRecording = false;
+        btn.textContent = 'START RECORDING';
+        indicator.classList.remove('active');
+      }
+    }
+    
+  </script>
+</body>
+</html>
