@@ -1003,7 +1003,7 @@
               
               try {
                 // Call demo transcription API
-                const response = await fetch('https://api-three-iota-12.vercel.app/api/demo-transcribe', {
+                const response = await fetch('https://tap2talk.vercel.app/api/demo-transcribe', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ audio: base64Audio })
