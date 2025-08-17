@@ -970,15 +970,29 @@
       
       if (!isRecording) {
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          mediaRecorder = new MediaRecorder(stream);
+          // Use optimized audio settings for speech (16kHz mono)
+          const stream = await navigator.mediaDevices.getUserMedia({ 
+            audio: {
+              sampleRate: 16000,  // Optimal for speech recognition
+              channelCount: 1,    // Mono is sufficient
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true
+            }
+          });
+          
+          // Use opus codec with low bitrate for speech
+          mediaRecorder = new MediaRecorder(stream, {
+            mimeType: 'audio/webm;codecs=opus',
+            audioBitsPerSecond: 16000  // 16 kbps for speech
+          });
           
           mediaRecorder.ondataavailable = (event) => {
             audioChunks.push(event.data);
           };
           
           mediaRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
             audioChunks = [];
             
             // Convert to base64
