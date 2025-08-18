@@ -74,18 +74,26 @@
 
             <!-- CTA Buttons -->
             <div class="cta-container">
-                <button class="cta-primary">
+                <button class="cta-primary" id="downloadBtn" onclick="downloadForPlatform()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
                         <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                         <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
                         <line x1="12" y1="19" x2="12" y2="23"></line>
                         <line x1="8" y1="23" x2="16" y2="23"></line>
                     </svg>
-                    Download Now - Talk in 2 Minutes
+                    <span id="downloadBtnText">Download Now - Talk in 2 Minutes</span>
                 </button>
                 <button class="cta-secondary">
                     See It Work (60 sec)
                 </button>
+            </div>
+            
+            <!-- Platform Links -->
+            <div class="platform-links" style="text-align: center; margin-top: 12px; font-size: 13px; color: rgba(255, 255, 255, 0.6);">
+                <span id="platformLinksText">Also available for</span>
+                <a href="#" id="altPlatform1" onclick="downloadMac(); return false;" style="color: #8b5cf6; text-decoration: none; margin: 0 4px;">macOS</a>
+                <span>•</span>
+                <a href="#" id="altPlatform2" onclick="downloadWindows(); return false;" style="color: #8b5cf6; text-decoration: none; margin: 0 4px;">Windows</a>
             </div>
 
             <!-- Video Placeholder -->
