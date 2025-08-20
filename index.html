@@ -4,18 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tap2Talk - Write 3x Faster in Every App</title>
-    <!--  link app.css -->
+    <title>Tap2Talk - AI in Every App, No Tab Switching BS</title>
     <link rel="stylesheet" href="app.css">
+    
+
 </head>
 
 <body>
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="https://unclecode.com" target="_blank" class="logo" style="text-decoration: none;">Tap2Talk</a>
+            <a href="https://unclecode.com" target="_blank" class="logo" style="text-decoration: none;">
+                Tap2Talk 
+                <span style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 10px; font-weight: 600; margin-left: 8px; vertical-align: super;">AI POWERED</span>
+            </a>
             <div class="nav-links">
-                <a href="#features" class="nav-link">Features</a>
+                <div class="nav-link" style="position: relative; cursor: pointer;" onmouseover="showDropdown()" onmouseout="hideDropdown()">
+                    Features ▾
+                    <div id="featuresDropdown" style="display: none; position: absolute; top: 100%; left: 0; background: rgba(0, 0, 0, 0.9); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 10px; min-width: 180px; margin-top: 10px;">
+                        <a href="#voice" style="display: block; padding: 8px; color: rgba(255, 255, 255, 0.8); text-decoration: none; ">Voice to Text</a>
+                        <a href="#ai-assistant" style="display: block; padding: 8px; color: rgba(255, 255, 255, 0.8); text-decoration: none;">AI Assistant</a>
+                        <a href="#transform" style="display: block; padding: 8px; color: rgba(255, 255, 255, 0.8); text-decoration: none;">Transform Text</a>
+                        <a href="#features" style="display: block; padding: 8px; color: rgba(255, 255, 255, 0.8); text-decoration: none;">All Features</a>
+                    </div>
+                </div>
                 <a href="#how" class="nav-link">How it Works</a>
                 <a href="#pricing" class="nav-link">Pricing</a>
                 <a href="#testimonials" class="nav-link">Reviews</a>
@@ -40,35 +52,44 @@
             <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>3x Faster Writing</span>
         </div>
         <div class="floating-badge right">
-            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>Works Everywhere</span>
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>AI in Every App</span>
         </div>
 
         <!-- Main Content -->
         <div class="hero-content">
             <!-- Announcement -->
             <div class="announcement">
-                <span class="announcement-badge">Real Talk</span>
-                <span>Built by <a href="https://twitter.com/unclecode" target="_blank" style="color: var(--accent-purple); text-decoration: none;">@unclecode</a> to bootstrap <a href="https://github.com/unclecode/crawl4ai" target="_blank" style="color: var(--accent-purple); text-decoration: none;">Crawl4AI</a> (51k stars and counting)</span>
+                <span class="announcement-badge">Now with AI</span>
+                <span>ChatGPT built into your keyboard. Ask anything by voice. No tab switching.</span>
             </div>
 
             <!-- Headline -->
-            <h1>
+            <h1 style="text-align: center;">
                 Stop Typing Like It's <span class="gradient-text">1999</span><br>
                 Just Speak, Dammit.
             </h1>
 
             <!-- Subtitle -->
             <p class="subtitle">
-                Hi, I'm <a href="https://unclecode.com" target="_blank" style="color: var(--accent-purple); text-decoration: none;">unclecode</a>. I built this because I was tired of typing the same emails over and over.<br>
-                Double-tap Ctrl+Space, speak your mind, text appears. That's it. No BS.
+                Hi, I'm <a href="https://unclecode.com" target="_blank" style="color: var(--accent-purple); text-decoration: none;">unclecode</a>. I built this because typing the same shit over and over was killing me.<br>
+                Double-tap to talk, text appears. Ask AI questions by voice. Transform any text with AI styles.<br>
+                It's like having ChatGPT built into your keyboard. No BS, no tab switching.
             </p>
+
+            <!-- Feature Pills -->
+            <div class="feature-pills">
+                <div class="feature-pill" style="--i: 0;">🎙️ Voice → Text</div>
+                <div class="feature-pill" style="--i: 1;">🤖 Ask AI Anything</div>
+                <div class="feature-pill" style="--i: 2;">✨ Transform Text</div>
+                <div class="feature-pill" style="--i: 3;">☁️ Syncs Everywhere</div>
+            </div>
 
             <!-- Full Width Wave Visualizer -->
             <div class="wave-container" id="waveContainer">
                 <div class="wave-visualizer">
                     <canvas class="wave-canvas" id="waveCanvas"></canvas>
                     <div class="mic-indicator" id="micIndicator"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg></div>
-                    <span class="visualizer-label" id="visualizerLabel">Click to activate voice</span>
+                    <span class="visualizer-label" id="visualizerLabel">Click to activate voice or ask AI</span>
                 </div>
             </div>
 
@@ -81,7 +102,7 @@
                         <line x1="12" y1="19" x2="12" y2="23"></line>
                         <line x1="8" y1="23" x2="16" y2="23"></line>
                     </svg>
-                    <span id="downloadBtnText">Download Now - Talk in 2 Minutes</span>
+                    <span id="downloadBtnText">Download Now - Talk & AI in 2 Minutes</span>
                 </button>
                 <button class="cta-secondary">
                     See It Work (60 sec)
@@ -100,7 +121,7 @@
             <div class="video-placeholder">
                 <div
                     style="position: absolute; top: 20px; left: 20px; padding: 8px 16px; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border-radius: 8px; font-size: 14px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>Product Demo Video (60 seconds)
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>See Voice + AI + Transform in Action (60s)
                 </div>
                 <div class="play-button"></div>
             </div>
@@ -112,8 +133,12 @@
                     <div class="stat-label">Active Users</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-number">2.5 hrs</div>
-                    <div class="stat-label">Saved Weekly</div>
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">AI Responses</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">AI Personalities</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number">98%</div>
@@ -123,7 +148,101 @@
         </div>
     </section>
 
-    <!-- Problem Section -->
+    <!-- NEW: Power Features Section -->
+    <section class="power-features">
+        <div class="container">
+            <h2>Six Ways to <span class="gradient-text">Never Type Again</span></h2>
+            <p class="section-subtitle">Because I was too lazy to build just one feature</p>
+            
+            <div class="power-grid">
+                <div class="power-card">
+                    <div class="power-badge">Original Magic</div>
+                    <div class="power-icon">🎙️</div>
+                    <h3 class="power-title">Talk & Type</h3>
+                    <p class="power-description">
+                        The OG feature. Double-tap, speak your mind, text appears where your cursor is. 
+                        Works in every app. No copy-paste dance. It's so simple it feels illegal.
+                    </p>
+                    <div class="power-shortcut">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        Ctrl + Space (double-tap)
+                    </div>
+                </div>
+
+                <div class="power-card">
+                    <div class="power-badge new">New Hotness</div>
+                    <div class="power-icon">🤖</div>
+                    <h3 class="power-title">AI Assistant</h3>
+                    <p class="power-description">
+                        ChatGPT living in your keyboard. Ask questions by voice, get instant answers. 
+                        12 personalities from "helpful developer" to "passive-aggressive lawyer". Quick mode or full chat.
+                    </p>
+                    <div class="power-shortcut">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        Option + Space (double-tap)
+                    </div>
+                </div>
+
+                <div class="power-card">
+                    <div class="power-badge new">Game Changer</div>
+                    <div class="power-icon">✨</div>
+                    <h3 class="power-title">Transform Any Text</h3>
+                    <p class="power-description">
+                        Select garbage text anywhere, hit the keys, pick a style. Boom - professional email. 
+                        Or add emojis. Or make it a haiku. Whatever, I don't judge your life choices.
+                    </p>
+                    <div class="power-shortcut">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        Ctrl + Alt + Space
+                    </div>
+                </div>
+
+                <div class="power-card">
+                    <div class="power-badge">Finally</div>
+                    <div class="power-icon">☁️</div>
+                    <h3 class="power-title">Cloud Sync</h3>
+                    <p class="power-description">
+                        Your settings, AI personalities, and styles follow you everywhere. 
+                        Switch computers? Everything's there. Because manually configuring shit in 2024 is dumb.
+                    </p>
+                    <div class="power-shortcut">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                        Auto-syncs (no buttons!)
+                    </div>
+                </div>
+
+                <div class="power-card">
+                    <div class="power-badge">Smart AF</div>
+                    <div class="power-icon">🎯</div>
+                    <h3 class="power-title">Voice + AI Styles</h3>
+                    <p class="power-description">
+                        Record your rambling thoughts, apply AI style before pasting. 
+                        Talk like a drunk pirate, send emails like a CEO. One shortcut, two transformations.
+                    </p>
+                    <div class="power-shortcut">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        Shift + Ctrl + Space
+                    </div>
+                </div>
+
+                <div class="power-card">
+                    <div class="power-badge">Power User</div>
+                    <div class="power-icon">📊</div>
+                    <h3 class="power-title">Usage History</h3>
+                    <p class="power-description">
+                        Track everything you've transcribed. Search past content. Export your genius. 
+                        Show your boss how productive you are. Get that raise (maybe).
+                    </p>
+                    <div class="power-shortcut">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"></path><path d="M7 12l4-4 4 4 4-4"></path></svg>
+                        Built-in analytics
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section (Keep Original) -->
     <section class="problem-section">
         <div class="container">
             <h2>Why I Built <span class="gradient-text">This Thing</span></h2>
@@ -152,18 +271,92 @@
         </div>
     </section>
 
-    <!-- How It Works -->
+    <!-- NEW: AI Assistant Section -->
+    <section class="ai-section" id="ai-assistant">
+        <div class="container">
+            <h2>Meet Your <span class="gradient-text">AI Brain</span></h2>
+            <p class="section-subtitle">ChatGPT, but it lives in your keyboard and doesn't judge your questions</p>
+            
+            <div class="ai-showcase">
+                <div class="ai-content">
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">⚡</div>
+                        <div class="ai-feature-text">
+                            <h4>Quick AI Mode</h4>
+                            <p>Double-tap Option+Space, ask your question by voice, get an answer in a floating window. No context switching. Perfect for "what's that git command again?"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">💬</div>
+                        <div class="ai-feature-text">
+                            <h4>Full Chat Interface</h4>
+                            <p>Need more than a quick answer? Full ChatGPT-style chat with markdown support, code highlighting, and conversation history. Because sometimes you need to argue with AI.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">🎭</div>
+                        <div class="ai-feature-text">
+                            <h4>12 AI Personalities</h4>
+                            <p>From "Professional Developer" to "Sarcastic Friend". Pin your favorite. Create custom ones. Make the AI talk like your favorite TV character. I won't judge.</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-ai-demo">
+                        <div class="quick-ai-header">
+                            <span style="color: var(--accent-purple);">Quick AI Response</span>
+                            <span style="font-size: 12px; color: rgba(255, 255, 255, 0.5);">Option+Space (double-tap)</span>
+                        </div>
+                        <div class="quick-ai-content">
+                            <strong>You asked:</strong> "How do I squash my last 3 commits?"<br><br>
+                            <strong>AI says:</strong> Run: <code style="background: rgba(139, 92, 246, 0.2); padding: 2px 6px; border-radius: 4px;">git rebase -i HEAD~3</code> then change 'pick' to 'squash' for the commits you want to combine.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-demo">
+                    <div class="ai-chat-window">
+                        <div class="ai-personalities">
+                            <div class="personality-chip">General</div>
+                            <div class="personality-chip active">Developer</div>
+                            <div class="personality-chip">Python Expert</div>
+                            <div class="personality-chip">Writer</div>
+                            <div class="personality-chip">Lawyer</div>
+                            <div class="personality-chip">+7 more</div>
+                        </div>
+                        
+                        <div class="ai-message user">
+                            explain async/await like I'm five
+                        </div>
+                        
+                        <div class="ai-message assistant">
+                            Imagine you're making a sandwich:
+                            <br><br>
+                            <strong>Without async:</strong> You put bread in the toaster and just stand there watching it until it pops. Can't do anything else. Boring.
+                            <br><br>
+                            <strong>With async/await:</strong> You put bread in the toaster, then go grab the peanut butter and jelly while it toasts. When it pops (await), you come back and finish the sandwich.
+                            <br><br>
+                            Your code can do other stuff while waiting for slow things to finish. That's it. You're welcome.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced How It Works -->
     <section class="how-section" id="how">
         <div class="container">
-            <h2>Dead Simple <span class="gradient-text">Setup</span></h2>
-            <p class="section-subtitle">If it takes more than 3 steps, I've failed as a developer</p>
+            <h2>Three Ways to <span class="gradient-text">Work Smarter</span></h2>
+            <p class="section-subtitle">Pick your fighter. Or use all three. I'm not your boss.</p>
 
             <div class="steps-container">
                 <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Hit the Magic Keys</h3>
-                    <p class="step-description">Double-tap Ctrl+Space. Works everywhere. Gmail, Slack, VS Code, that
-                        weird app your company forces you to use. If you can type in it, you can talk to it.</p>
+                    <div class="step-number">🎙️</div>
+                    <h3 class="step-title">Classic: Just Talk</h3>
+                    <p class="step-description">Double-tap Ctrl+Space. Talk like a human. Text appears where your cursor is. 
+                        Works in Gmail, Slack, VS Code, that weird app your company forces you to use.</p>
                     <div class="step-gif-placeholder">
                         <div class="keyboard-demo">
                             <svg width="160" height="80" viewBox="0 0 160 80" fill="none" stroke="currentColor" stroke-width="2" opacity="0.8">
@@ -181,11 +374,12 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Talk Like a Human</h3>
-                    <p class="step-description">Say 'um', pause, think out loud. The AI gets it. Hell, it understands
-                        my accent and I'm from [redacted]. Technical jargon? No problem.</p>
+                    <div class="step-number">🤖</div>
+                    <h3 class="step-title">AI Mode: Ask Anything</h3>
+                    <p class="step-description">Double-tap Option+Space. Ask your question by voice. 
+                        AI answers instantly. No tab switching. No copying. Just answers where you need them.</p>
                     <div class="step-gif-placeholder">
                         <div class="voice-demo">
                             <svg width="160" height="80" viewBox="0 0 160 80" fill="none" stroke="currentColor" stroke-width="2" opacity="0.8">
@@ -194,34 +388,32 @@
                                 <path d="M65 38v3a15 15 0 0 0 30 0v-3" stroke="currentColor" fill="none"/>
                                 <line x1="80" y1="56" x2="80" y2="65" stroke="currentColor"/>
                                 <line x1="72" y1="65" x2="88" y2="65" stroke="currentColor"/>
-                                <!-- Sound waves -->
-                                <path d="M100 27 Q 108 32, 100 37" class="sound-wave-1" stroke="currentColor" fill="none" opacity="0.6"/>
-                                <path d="M108 23 Q 118 32, 108 41" class="sound-wave-2" stroke="currentColor" fill="none" opacity="0.4"/>
-                                <path d="M60 27 Q 52 32, 60 37" class="sound-wave-1" stroke="currentColor" fill="none" opacity="0.6"/>
-                                <path d="M52 23 Q 42 32, 52 41" class="sound-wave-2" stroke="currentColor" fill="none" opacity="0.4"/>
+                                <!-- AI sparkles -->
+                                <text x="110" y="35" font-size="20" fill="currentColor" opacity="0.7">✨</text>
+                                <text x="50" y="35" font-size="20" fill="currentColor" opacity="0.7">🤖</text>
                             </svg>
                         </div>
                     </div>
                 </div>
+                
                 <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Magic Happens</h3>
-                    <p class="step-description">Text appears where your cursor is. No copy. No paste. No switching
-                        windows. It's so simple it feels like cheating.</p>
+                    <div class="step-number">✨</div>
+                    <h3 class="step-title">Transform: Fix That Mess</h3>
+                    <p class="step-description">Select any text, hit Ctrl+Alt+Space, pick a style. 
+                        Turn your rambling Slack message into a professional email. Or add emojis. Your choice.</p>
                     <div class="step-gif-placeholder">
                         <div class="text-demo">
                             <svg width="160" height="80" viewBox="0 0 160 80" fill="none" stroke="currentColor" stroke-width="2" opacity="0.8">
                                 <!-- Text editor window -->
                                 <rect x="30" y="20" width="100" height="45" rx="3" stroke="currentColor" fill="rgba(165, 32, 255, 0.05)"/>
-                                <!-- Text lines -->
-                                <line x1="40" y1="30" x2="80" y2="30" stroke="currentColor" opacity="0.4"/>
-                                <line x1="40" y1="38" x2="90" y2="38" stroke="currentColor" opacity="0.4"/>
-                                <!-- Animated text line -->
-                                <line x1="40" y1="46" x2="40" y2="46" class="typing-line" stroke="currentColor" stroke-width="3"/>
-                                <!-- Cursor -->
-                                <line x1="40" y1="44" x2="40" y2="48" class="text-cursor" stroke="currentColor" stroke-width="2"/>
-                                <!-- Magic sparkles -->
-                                <text x="80" y="58" font-size="14" text-anchor="middle" fill="currentColor" opacity="0.7">✨</text>
+                                <!-- Selected text (highlighted) -->
+                                <rect x="40" y="30" width="50" height="8" fill="rgba(139, 92, 246, 0.3)"/>
+                                <!-- Transform arrow -->
+                                <path d="M95 34 L105 34 M105 34 L102 31 M105 34 L102 37" stroke="var(--accent-purple)" stroke-width="2"/>
+                                <!-- Transformed text -->
+                                <line x1="110" y1="30" x2="120" y2="30" stroke="currentColor" opacity="0.8"/>
+                                <line x1="110" y1="34" x2="118" y2="34" stroke="currentColor" opacity="0.8"/>
+                                <line x1="110" y1="38" x2="122" y2="38" stroke="currentColor" opacity="0.8"/>
                             </svg>
                         </div>
                     </div>
@@ -230,93 +422,109 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Features Section (Updated) -->
     <section class="features-section" id="features">
         <div class="container">
-            <h2>What This Thing <span class="gradient-text">Actually Does</span></h2>
-            <p class="section-subtitle">Features I built because I needed them, not because they sound cool</p>
+            <h2>Every Feature I <span class="gradient-text">Actually Use</span></h2>
+            <p class="section-subtitle">Not marketing fluff. Actual shit that saves time.</p>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div>
-                    <h3 class="feature-title">Make Me Sound Smart</h3>
-                    <p class="feature-description">Ramble like a human, output like a professional. The AI fixes your
-                        'uhms' and 'likes' and makes you sound like you went to Harvard (I didn't).</p>
+                    <h3 class="feature-title">Voice + AI Styles</h3>
+                    <p class="feature-description">Talk casually, let AI make you sound smart. Ramble for 30 seconds, 
+                        get a perfect email. It's like having a personal editor who doesn't judge your grammar.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
-                    <h3 class="feature-title">Actually Fast</h3>
-                    <p class="feature-description">2-5 seconds. I timed it obsessively. Uses Whisper AI (the good one
-                        from OpenAI). Faster than you can alt-tab to check Twitter.</p>
+                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+                    <h3 class="feature-title">60-Second Auto-Stop</h3>
+                    <p class="feature-description">Because sometimes you forget you're recording and start arguing with your cat. 
+                        Auto-stops at 60 seconds so you don't transcribe your entire life.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
-                    <h3 class="feature-title">I Don't Want Your Data</h3>
-                    <p class="feature-description">Audio deleted immediately after transcription. I literally cannot
-                        listen to your midnight rambles even if I wanted to (I don't).</p>
+                    <h3 class="feature-title">Your API Key = Free Forever</h3>
+                    <p class="feature-description">Bring your own Groq API key, use it forever. No limits. No tracking. 
+                        I literally cannot see what you're doing even if the FBI asked nicely.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
-                    <h3 class="feature-title">Works Everywhere</h3>
-                    <p class="feature-description">Compatible with every application on Windows, Mac, and Linux. If you
-                        can type there, you can speak there.</p>
+                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg></div>
+                    <h3 class="feature-title">Cloud Sync That Works</h3>
+                    <p class="feature-description">Your settings, personalities, and styles sync across devices. 
+                        Switch from laptop to desktop? Everything's there. Magic? No, just good engineering.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
-                    <h3 class="feature-title">Usage History</h3>
-                    <p class="feature-description">Track your transcriptions, search past content, export your data.
-                        Complete control over your productivity metrics.</p>
+                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
+                    <h3 class="feature-title">Custom AI Personalities</h3>
+                    <p class="feature-description">Make the AI talk like your favorite character. Or your boss. 
+                        Or a medieval knight. 12 built-in, unlimited custom. Go wild.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m4.22-10.22l4.24-4.24M6.34 6.34L2.1 2.1m17.8 17.8l-4.24-4.24M6.34 17.66L2.1 21.9"></path></svg></div>
-                    <h3 class="feature-title">Customizable</h3>
-                    <p class="feature-description">Set your own keyboard shortcuts, adjust recording settings, create
-                        personal workflows that fit your style.</p>
+                    <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
+                    <h3 class="feature-title">Usage Analytics</h3>
+                    <p class="feature-description">Track how much time you're saving. Show your boss. Get a raise. 
+                        (Results not guaranteed, but the graphs look impressive.)</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Style Transformation -->
+    <!-- Enhanced Style Transformation -->
     <section class="styles-section">
         <div class="container">
-            <h2>Transform Your <span class="gradient-text">Voice</span> with AI</h2>
-            <p class="section-subtitle">Speak casually, write professionally</p>
+            <h2>Transform Your <span class="gradient-text">Word Vomit</span> into Gold</h2>
+            <p class="section-subtitle">Two ways: speak it right, or fix it later</p>
+
+            <div class="transform-flow">
+                <div class="transform-step">
+                    <strong>Select Text</strong><br>
+                    <small style="opacity: 0.7;">Any app, any text</small>
+                </div>
+                <div class="transform-arrow">→</div>
+                <div class="transform-step">
+                    <strong>Hit Keys</strong><br>
+                    <small style="opacity: 0.7;">Ctrl+Alt+Space</small>
+                </div>
+                <div class="transform-arrow">→</div>
+                <div class="transform-step">
+                    <strong>Pick Style</strong><br>
+                    <small style="opacity: 0.7;">Professional, casual, etc.</small>
+                </div>
+            </div>
 
             <div class="style-demo">
                 <div class="style-input">
-                    <div class="style-label">What You Say</div>
+                    <div class="style-label">Your Garbage Text</div>
                     <div class="style-text">
-                        "hey can we push the meeting to tomorrow afternoon instead i've got a conflict with another
-                        client call and need to prepare the quarterly report"
+                        "hey so like we need to push the meeting cuz i got this other thing and also need to finish that report thing we talked about last week remember that one"
                     </div>
                 </div>
                 <div class="style-output">
-                    <div class="style-label">What Gets Written</div>
+                    <div class="style-label">AI Makes You Look Smart</div>
                     <div class="style-text" id="styledOutput">
-                        "Dear Team,<br><br>I hope this message finds you well. I would like to request rescheduling our
-                        meeting to tomorrow afternoon due to a scheduling conflict with another client call. This will
-                        also allow me additional time to prepare the quarterly report.<br><br>Thank you for your
-                        understanding.<br><br>Best regards"
+                        "Dear Team,<br><br>I need to reschedule our upcoming meeting due to a scheduling conflict. 
+                        This will also provide additional time to complete the quarterly report we discussed last week.<br><br>
+                        Please let me know your availability for later this week.<br><br>Best regards"
                     </div>
                 </div>
             </div>
 
             <div class="style-selector">
-                <div class="style-chip active" data-style="professional">Professional Email</div>
-                <div class="style-chip" data-style="casual">Casual Chat</div>
-                <div class="style-chip" data-style="emoji">Add Emojis</div>
+                <div class="style-chip active" data-style="professional">Professional</div>
+                <div class="style-chip" data-style="casual">Keep It Real</div>
+                <div class="style-chip" data-style="emoji">Emoji Overload</div>
                 <div class="style-chip" data-style="bullet">Bullet Points</div>
-                <div class="style-chip" data-style="summary">Summarize</div>
+                <div class="style-chip" data-style="angry">Passive Aggressive</div>
+                <div class="style-chip" data-style="pirate">Talk Like a Pirate</div>
             </div>
         </div>
     </section>
 
-    <!-- Integrations -->
+    <!-- Integrations (Keep Original) -->
     <section class="integrations-section">
         <div class="container">
             <h2>Works With <span class="gradient-text">Everything</span></h2>
-            <p class="section-subtitle">Seamlessly integrates with all your favorite apps</p>
+            <p class="section-subtitle">If you can type there, you can talk there. And AI there.</p>
 
             <div class="integrations-grid">
                 <div class="integration-card">
@@ -365,13 +573,13 @@
                 </div>
                 <div class="integration-card">
                     <div class="integration-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>
-                    <div class="integration-name">Any App</div>
+                    <div class="integration-name">Literally Any App</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing -->
+    <!-- Updated Pricing -->
     <section class="pricing-section" id="pricing">
         <div class="container">
             <h2>Let's Talk <span class="gradient-text">Money</span></h2>
@@ -384,12 +592,14 @@
                     <div class="pricing-price gradient-text">$0</div>
                     <div class="pricing-period">I literally make nothing from this</div>
                     <ul class="pricing-features">
-                        <li>Unlimited transcription (seriously)</li>
+                        <li>✓ All AI features included</li>
+                        <li>✓ Unlimited transcription & AI queries</li>
+                        <li>✓ 12 AI personalities + custom ones</li>
+                        <li>✓ Transform text unlimited times</li>
+                        <li>✓ Cloud sync included</li>
                         <li>You manage your own API key</li>
-                        <li>Groq's limits apply (generous AF)</li>
                         <li>Your data never touches my servers</li>
                         <li>Perfect for devs who get it</li>
-                        <li>I built this for myself first</li>
                     </ul>
                     <button class="pricing-cta">I Have a Groq Key</button>
                 </div>
@@ -400,10 +610,12 @@
                     <div class="pricing-price gradient-text">Pay What You Use</div>
                     <div class="pricing-period">Because monthly subscriptions suck</div>
                     <ul class="pricing-features">
-                        <li>15 free minutes monthly (I'm not heartless)</li>
-                        <li><strong>$5</strong> = 3 hours of talking</li>
+                        <li>✓ All AI features included</li>
+                        <li>✓ 15 free minutes monthly (I'm not heartless)</li>
+                        <li><strong>$5</strong> = 3 hours of talking + AI</li>
                         <li><strong>$10</strong> = 6 hours (best deal tbh)</li>
                         <li><strong>$20</strong> = 15 hours (power user)</li>
+                        <li>✓ Cloud sync included</li>
                         <li>Credits never expire (I hate that too)</li>
                         <li>Helps fund <a href="https://crawl4ai.com" target="_blank" style="color: var(--accent-purple); text-decoration: none;">Crawl4AI</a> development 🙏</li>
                     </ul>
@@ -413,89 +625,7 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials-section" id="testimonials" style="display: none;">
-        <div class="container">
-            <h2>What <span class="gradient-text">Real People</span> Say</h2>
-            <p class="section-subtitle">Not paid actors. Actual users who DM'd me on Twitter</p>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Holy shit, it actually works. No popup windows, no BS. I can code comment
-                        while my hands stay on the keyboard. This is what I've been looking for."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JD</div>
-                        <div class="author-info">
-                            <div class="author-name">James Developer</div>
-                            <div class="author-role">Senior Software Engineer</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"I sound like a human in emails now. Used to take me 10 mins to write
-                        'professional' emails. Now I just ramble and let the AI fix it. Game changer."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SM</div>
-                        <div class="author-info">
-                            <div class="author-name">Sarah Miller</div>
-                            <div class="author-role">Marketing Manager</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Twitter threads while walking the dog. Instagram captions while cooking.
-                        This app gets that I have shit to do besides sitting at a desk."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AC</div>
-                        <div class="author-info">
-                            <div class="author-name">Alex Chen</div>
-                            <div class="author-role">Content Creator</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Perfect for literature reviews. I can annotate PDFs by voice while
-                        reading. The summarize style helps create concise notes."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">RP</div>
-                        <div class="author-info">
-                            <div class="author-name">Dr. Rachel Park</div>
-                            <div class="author-role">Research Scholar</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"As a student writing multiple essays, this saves me hours every week. I
-                        can draft papers 3x faster just by speaking my thoughts."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">TW</div>
-                        <div class="author-info">
-                            <div class="author-name">Tom Wilson</div>
-                            <div class="author-role">Graduate Student</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Managing client communications is so much easier. I speak naturally and
-                        Tap2Talk formats it professionally. Worth every penny."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">LB</div>
-                        <div class="author-info">
-                            <div class="author-name">Lisa Brown</div>
-                            <div class="author-role">Freelance Consultant</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
+    <!-- About Section (Keep Original) -->
     <section class="about-section" style="background: var(--secondary-bg); padding: 100px 40px;">
         <div class="container">
             <h2>Why Should You <span class="gradient-text">Trust Me?</span></h2>
@@ -504,8 +634,13 @@
                 I'm also the founder/CEO of Kidocode, one of Southeast Asia's largest online EdTech platforms.
                 <br><br>
                 Here's the thing: I built Tap2Talk to bootstrap Crawl4AI development. No VC funding, no BS.
-                Just a developer solving his own problem and sharing it with you. I answer every email personally
-                (using Tap2Talk, obviously). Hit me up on <a href="https://twitter.com/unclecode" target="_blank" style="color: var(--accent-purple); text-decoration: none;">Twitter @unclecode</a> if you want to chat.
+                Just a developer solving his own problem and sharing it with you. 
+                <br><br>
+                The AI features? Added them because I got tired of switching to ChatGPT 50 times a day. 
+                The transform feature? Because rewriting emails is soul-crushing. 
+                Cloud sync? Lost my settings once, never again.
+                <br><br>
+                I answer every email personally (using Tap2Talk, obviously). Hit me up on <a href="https://twitter.com/unclecode" target="_blank" style="color: var(--accent-purple); text-decoration: none;">Twitter @unclecode</a> if you want to chat or if shit breaks.
             </p>
         </div>
     </section>
@@ -514,18 +649,18 @@
     <section class="footer-cta">
         <div class="container">
             <h2>Ready to <span class="gradient-text">Stop Typing</span>?</h2>
-            <p class="subtitle">15 minutes free. No credit card. No spam emails. Just download and talk.</p>
+            <p class="subtitle">15 minutes free. AI included. No credit card. No spam emails. Just download and talk.</p>
 
             <div class="cta-container">
                 <button class="cta-primary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 8px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>Let's Go - It's Free to Try
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 8px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>Let's Go - Voice + AI Free to Try
                 </button>
             </div>
 
             <div class="trust-badges">
                 <div class="trust-badge">
                     <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-                    <span>No spam, I promise</span>
+                    <span>All AI features included</span>
                 </div>
                 <div class="trust-badge">
                     <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
@@ -548,11 +683,23 @@
             <a href="#" class="footer-link">Privacy</a>
             <a href="#" class="footer-link">Terms</a>
         </div>
-        <p class="copyright">© 2024 Tap2Talk. Built with coffee and frustration by <a href="https://twitter.com/unclecode" target="_blank" style="color: var(--accent-purple); text-decoration: none;">@unclecode</a></p>
+        <p class="copyright">© 2024 Tap2Talk. Built with coffee, frustration, and too much AI by <a href="https://twitter.com/unclecode" target="_blank" style="color: var(--accent-purple); text-decoration: none;">@unclecode</a></p>
     </footer>
 
-    <!--  script tag to index.js -->
+    <!-- Scripts -->
     <script src="index.js"></script>
+    <script>
+        // Simple dropdown functionality
+        function showDropdown() {
+            document.getElementById('featuresDropdown').style.display = 'block';
+        }
+        
+        function hideDropdown() {
+            setTimeout(() => {
+                document.getElementById('featuresDropdown').style.display = 'none';
+            }, 200);
+        }
+    </script>
 </body>
 
 </html>
